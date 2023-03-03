@@ -311,6 +311,7 @@
     - 'After'
   when:
     - keepalived_systemd_overrides | bool
+    - keepalived_systemd_apply_now
   notify:
     - restart keepalived
   tags:
@@ -325,7 +326,6 @@
     mode: '0644'
   when:
     - keepalived_systemd_overrides | bool
-    - keepalived_systemd_override_service_restart | bool
   notify:
     - restart keepalived
   tags:
@@ -344,7 +344,7 @@
   ansible.builtin.service:
     daemon_reload: yes
     name: "{{ keepalived_service_name }}"
-    state: "started"
+    state: "{{ keepalived_systemd_apply_now | ternary('started', null) }}"
     enabled: "yes"
     masked: "no"
   register: _servicestart

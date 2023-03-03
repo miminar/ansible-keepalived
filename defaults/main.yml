@@ -76,6 +76,8 @@ keepalived_systemd_overrides: True
 # It depends on bool keepalived_systemd_overrides, so to add both must be True
 keepalived_systemd_override_service_restart: False
 
+keepalived_systemd_apply_now: true
+
 # Set location of keepalived daemon options file path
 # For Debian based systems it's usually /etc/default/keepalived
 # For RedHat based systems it's usually /etc/sysconfig/keepalived

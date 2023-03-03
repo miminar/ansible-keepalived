@@ -20,6 +20,7 @@
   register: _servicerestart
   when:
     - _servicestart is not changed
+    - keepalived_systemd_apply_now | bool
 
 - name: reload keepalived
   ansible.builtin.service:
@@ -29,3 +30,4 @@
   when:
     - _servicestart is not changed
     - _servicerestart is not defined
+    - keepalived_systemd_apply_now | bool
