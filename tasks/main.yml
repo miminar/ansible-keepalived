@@ -344,7 +344,7 @@
   ansible.builtin.service:
     daemon_reload: yes
     name: "{{ keepalived_service_name }}"
-    state: "{{ keepalived_systemd_apply_now | ternary('started', null) }}"
+    state: "{{ keepalived_systemd_apply_now | ternary('started', omit) }}"
     enabled: "yes"
     masked: "no"
   register: _servicestart
