@@ -210,8 +210,8 @@
     src: "{{ item.value.src_notify_script }}"
     dest: "{{ item.value.notify_script }}"
     mode: "0755"
-  loop: "{{ keepalived_instances | dict2items }}"
-  when: "'src_notify_script' in item.value"
+  when: "'src_notify_script' in (item.value | default({}))"
+  with_dict: "{{ keepalived_instances }}"
   notify:
     - reload keepalived
   tags:
