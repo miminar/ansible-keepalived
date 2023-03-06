@@ -210,8 +210,8 @@
     src: "{{ item.value.src_notify_script }}"
     dest: "{{ item.value.notify_script }}"
     mode: "0755"
+  loop: "{{ keepalived_instances | dict2items }}"
   when: "'src_notify_script' in (item.value | default({}))"
-  with_dict: "{{ keepalived_instances }}"
   notify:
     - reload keepalived
   tags:
@@ -223,7 +223,7 @@
     dest: "{{ item.value.notify_master }}"
     mode: "0755"
   loop: "{{ keepalived_instances | dict2items }}"
-  when: "'src_notify_script' in (item.value | default({}))"
+  when: "'src_notify_master' in (item.value | default({}))"
   notify:
     - reload keepalived
   tags:
@@ -235,7 +235,7 @@
     dest: "{{ item.value.notify_master_rx_lower_pri }}"
     mode: "0755"
   loop: "{{ keepalived_instances | dict2items }}"
-  when: "'src_notify_master_rx_lower_pri' in item.value"
+  when: "'src_notify_master_rx_lower_pri' in (item.value | default({}))"
   notify:
     - reload keepalived
   tags:
@@ -247,7 +247,7 @@
     dest: "{{ item.value.notify_backup }}"
     mode: "0755"
   loop: "{{ keepalived_instances | dict2items }}"
-  when: "'src_notify_backup' in item.value"
+  when: "'src_notify_backup' in (item.value | default({}))"
   notify:
     - reload keepalived
   tags:
@@ -259,7 +259,7 @@
     dest: "{{ item.value.notify_stop }}"
     mode: "0755"
   loop: "{{ keepalived_instances | dict2items }}"
-  when: "'src_notify_stop' in item.value"
+  when: "'src_notify_stop' in (item.value | default({}))"
   notify:
     - reload keepalived
   tags:
@@ -271,7 +271,7 @@
     dest: "{{ item.value.notify_fault }}"
     mode: "0755"
   loop: "{{ keepalived_instances | dict2items }}"
-  when: "'src_notify_fault' in item.value"
+  when: "'src_notify_fault' in (item.value | default({}))"
   notify:
     - reload keepalived
   tags:
@@ -311,7 +311,7 @@
     - 'After'
   when:
     - keepalived_systemd_overrides | bool
-    - keepalived_systemd_apply_now
+    - keepalived_systemd_apply_now | bool
   notify:
     - restart keepalived
   tags:
