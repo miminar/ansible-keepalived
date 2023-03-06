@@ -223,7 +223,7 @@
     dest: "{{ item.value.notify_master }}"
     mode: "0755"
   loop: "{{ keepalived_instances | dict2items }}"
-  when: "'src_notify_master' in item.value"
+  when: "'src_notify_script' in (item.value | default({}))"
   notify:
     - reload keepalived
   tags:
